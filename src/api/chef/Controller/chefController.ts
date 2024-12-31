@@ -26,7 +26,7 @@ export const getChefById = async (req: Request, res: Response) => {
 
 export const getChefByName = async (req: Request, res: Response) => {
   try {
-    const chef = await Chef.find({ name: new RegExp('^' + req.params.name + '$', 'i') });
+    const chef = await Chef.find({ name: new RegExp('^' + req.params.name + '$', 'i') }).populate('restaurantIds');
         if (!chef || chef.length === 0) {
        res.status(404).json({ message: 'Chef not found' });
        return

@@ -25,7 +25,7 @@ export const getRestaurantById = async (req: Request, res: Response) => {
 
 export const getRestaurantByName = async (req: Request, res: Response) => {
     try {
-      const restaurant = await Restaurant.find({ name: new RegExp('^' + req.params.name + '$', 'i') });
+      const restaurant = await Restaurant.find({ name: new RegExp('^' + req.params.name + '$', 'i') }).populate('chefId').populate('dishesId');
           if (!restaurant || restaurant.length === 0) {
          res.status(404).json({ message: 'Restaurant not found' });
          return
