@@ -1,14 +1,18 @@
 import express from 'express';
 import { connectDB } from './db'; 
-import Chef from '../api/chef/chef.schema'; 
-import Restaurant from '../api/restaurant/restaurant.schema';
-import Dish from '../api/dish/dish.schema';
+import { createSampleData } from '../utils/createSampleData';
+import chefRoutes from "../api/chef/routes/chefRoutes";
+import restaurantRoutes from '../api/restaurant/routes/restaurantRoutes';
 
-connectDB();
+connectDB(); 
+createSampleData();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(express.json()); 
+app.use('/chefs', chefRoutes);
+app.use('/restaurants', restaurantRoutes);
 
+const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('Hello, Express!');
 });
