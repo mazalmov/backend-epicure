@@ -13,23 +13,22 @@ export const createSampleData = async () => {
 
     const dish1 = new Dish({
         name: 'Onza',
-        cuisine: 'Italian',
+        iconMeaning: 'vegan',
         image: 'dish1_image_url',
         price: 100,
         ingredients: ['Tomato', 'Cheese'], 
         chefId: chef1._id,  
-        restaurantId: [],  
+        restaurantId: "6773eec8dacbccf956211609",  
       });
       await dish1.save();
-
       const dish2 = new Dish({
         name: 'kitchen market',
-        cuisine: 'Moroccan',
+        iconMeaning: 'spicy',
         image: 'dish2_image_url',
         price: 94,
         ingredients: ['Meat', 'Bread', 'Hummus'], 
         chefId: chef1._id,  
-        restaurantId: [],  
+        restaurantId: "6773ef344b0b93497bd9f972",  
       });
       await dish2.save();
     

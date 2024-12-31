@@ -25,7 +25,7 @@ export const getDishById = async (req: Request, res: Response) => {
 
 export const getDishByName = async (req: Request, res: Response) => {
     try {
-      const dish = await Dish.find({ name: new RegExp('^' + req.params.name + '$', 'i') }).populate('chefId').populate('restaurantId');
+      const dish = await Dish.find({ name: new RegExp('^' + req.params.name + '$', 'i') });
           if (!dish || dish.length === 0) {
          res.status(404).json({ message: 'Dish not found' });
          return
