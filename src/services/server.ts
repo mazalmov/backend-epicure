@@ -4,6 +4,7 @@ import { connectDB } from './db';
 import { createSampleData } from '../utils/createSampleData';
 import chefRoutes from "../api/chef/routes/chefRoutes";
 import restaurantRoutes from '../api/restaurant/routes/restaurantRoutes';
+import searchRoutes from '../api/search/routes/searchRoutes';
 import dishRoutes from '../api/dish/routes/dishRoutes';
 import { setupSwagger } from '../utils/swagger';
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/chefs', chefRoutes);
 app.use('/restaurants', restaurantRoutes);
 app.use('/dishes', dishRoutes);
+app.use('/search', searchRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {

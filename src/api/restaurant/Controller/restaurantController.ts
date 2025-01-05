@@ -3,8 +3,18 @@ import Restaurant from '../restaurant.schema';
 
 export const getAllRestaurants = async (req: Request, res: Response) => {
   try {
-    const restaurants = await Restaurant.find().populate('chefId').populate('dishIds');
-    res.status(200).json(restaurants);
+    const page = parseInt(req.query.page as string) || 1; 
+    const limit = parseInt(req.query.limit as string) || 20;
+    const offset = (page - 1) * limit;
+    const restaurants = await Restaurant.find().skip(offset).limit(limit); 
+    const totalRestaurants = await Restaurant.countDocuments();
+    res.status(200).json({
+      page,
+      limit,
+      totalPages: Math.ceil(totalRestaurants / limit),
+      totalRestaurants,
+      data: restaurants,
+    });
   } catch (err) {
     res.status(500).json({ message: 'Error fetching restaurants', error: err });
   }
@@ -12,7 +22,7 @@ export const getAllRestaurants = async (req: Request, res: Response) => {
 
 export const getRestaurantById = async (req: Request, res: Response) => {
   try {
-    const restaurant = await Restaurant.findById(req.params.id).populate('chefId').populate('dishIds');
+    const restaurant = await Restaurant.findById(req.params.id).populate('chefId','dishIds');
     if (!restaurant) {
         res.status(404).json({ message: 'Restaurant not found' });
         return
@@ -25,7 +35,7 @@ export const getRestaurantById = async (req: Request, res: Response) => {
 
 export const getRestaurantByName = async (req: Request, res: Response) => {
     try {
-      const restaurant = await Restaurant.find({ name: new RegExp('^' + req.params.name + '$', 'i') }).populate('chefId').populate('dishIds');
+      const restaurant = await Restaurant.find({ name: new RegExp('^' + req.params.name + '$', 'i') }).populate('chefId','dishIds');
           if (!restaurant || restaurant.length === 0) {
          res.status(404).json({ message: 'Restaurant not found' });
          return

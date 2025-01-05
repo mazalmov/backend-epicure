@@ -43,6 +43,13 @@ const dishSchema: Schema = new Schema({
     required: true,  
   },
 });
+// data: []
+// pagination: {
+//     pageSize: 20,
+//     page:1,
+//     totalPage:13
+//     total: 265
+// }
 
 const Dish = mongoose.model<IDish & Document>('Dish', dishSchema);
 

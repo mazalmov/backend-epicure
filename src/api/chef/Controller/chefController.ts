@@ -4,8 +4,19 @@ import { resolve } from 'path';
 
 export const getAllChefs = async (req: Request, res: Response) => {
   try {
-    const chefs = await Chef.find();
-    res.status(200).json(chefs);
+    const page = parseInt(req.query.page as string) || 1; 
+    const limit = parseInt(req.query.limit as string) || 20;
+    const offset = (page - 1) * limit;
+    const chefs = await Chef.find().skip(offset).limit(limit);
+    const totalChefs = await Chef.countDocuments();
+    res.status(200).json({
+      page,
+      limit,
+      totalPages: Math.ceil(totalChefs / limit),
+      totalChefs,
+      data: chefs,
+    });
+  
   } catch (err) {
     res.status(500).json({ message: 'Error fetching chefs', error: err });
   }
