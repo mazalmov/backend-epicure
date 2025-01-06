@@ -1,6 +1,7 @@
 import express from 'express';
 import {
-  getAllChefs,
+  getChefs,
+  getChef,
   getChefById,
   getChefByName,
   createChef,
@@ -10,7 +11,8 @@ import {
 
 const chefRoutes = express.Router();
 
-chefRoutes.get('/', getAllChefs);
+chefRoutes.get('/', getChefs);
+chefRoutes.get('text/:text', getChef);
 chefRoutes.get('/id/:id', getChefById);
 chefRoutes.get('/name/:name', getChefByName);
 chefRoutes.post('/', createChef);

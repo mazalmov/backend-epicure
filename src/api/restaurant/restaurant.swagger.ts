@@ -18,6 +18,78 @@
 
 /**
  * @swagger
+ * /restaurants/{text}:
+ *   get:
+ *     summary: Retrieve a restaurant by ID or name
+ *     tags: [Restaurants]
+ *     parameters:
+ *       - in: path
+ *         name: text
+ *         required: true
+ *         description: The ID or name of the restaurant
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A restaurant object or a list of restaurants (if searched by name)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 chefId:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                 dishIds:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       name:
+ *                         type: string
+ *       400:
+ *         description: Invalid text parameter
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Restaurant not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Error fetching restaurant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
+ */
+
+/**
+ * @swagger
  * /restaurants/id/{id}:
  *   get:
  *     summary: Get a restaurant by ID

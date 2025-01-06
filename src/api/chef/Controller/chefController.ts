@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import Chef from '../chef.schema';
-import { resolve } from 'path';
 
-export const getAllChefs = async (req: Request, res: Response) => {
+export const getChefs = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1; 
     const limit = parseInt(req.query.limit as string) || 20;
@@ -19,6 +18,36 @@ export const getAllChefs = async (req: Request, res: Response) => {
   
   } catch (err) {
     res.status(500).json({ message: 'Error fetching chefs', error: err });
+  }
+};
+
+export const getChef = async (req: Request, res: Response) => {
+  try {
+    const { text } = req.params; 
+
+    if (!text) {
+      res.status(400).json({ message: 'Please provide a valid text parameter' });
+      return;
+    }
+
+    const isId = /^[0-9a-fA-F]{24}$/.test(text);
+    let chef;
+
+    if (isId) {
+      chef = await Chef.findById(text).populate('restaurantIds');
+    } else {
+      chef = await Chef.find({ name: new RegExp('^' + text + '$', 'i') }).populate('restaurantIds');
+    }
+
+    if (!chef) {
+      res.status(404).json({ message: 'Chef not found' });
+      return;
+    }
+
+    res.status(200).json(chef);
+  } catch (err) {
+    console.error('Error fetching chef:', err);
+    res.status(500).json({ message: 'Error fetching chef', error: err });
   }
 };
 

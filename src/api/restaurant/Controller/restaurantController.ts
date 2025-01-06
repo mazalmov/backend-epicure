@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Restaurant from '../restaurant.schema';
 
-export const getAllRestaurants = async (req: Request, res: Response) => {
+export const getRestaurants = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1; 
     const limit = parseInt(req.query.limit as string) || 20;
@@ -20,32 +20,62 @@ export const getAllRestaurants = async (req: Request, res: Response) => {
   }
 };
 
-export const getRestaurantById = async (req: Request, res: Response) => {
-  try {
-    const restaurant = await Restaurant.findById(req.params.id).populate('chefId','dishIds');
-    if (!restaurant) {
-        res.status(404).json({ message: 'Restaurant not found' });
-        return
-    }
-    res.status(200).json(restaurant);
-  } catch (err) {
-    res.status(500).json({ message: 'Error fetching restaurant', error: err });
-  }
-};
-
-export const getRestaurantByName = async (req: Request, res: Response) => {
+export const getRestaurant = async (req: Request, res: Response) => {
     try {
-      const restaurant = await Restaurant.find({ name: new RegExp('^' + req.params.name + '$', 'i') }).populate('chefId','dishIds');
-          if (!restaurant || restaurant.length === 0) {
-         res.status(404).json({ message: 'Restaurant not found' });
-         return
+      const { text } = req.params;
+  
+      if (!text) {
+        res.status(400).json({ message: 'Please provide a valid text parameter' });
+        return;
+      }
+  
+      const isId = /^[0-9a-fA-F]{24}$/.test(text);
+      let restaurant;
+  
+      if (isId) {
+        restaurant = await Restaurant.findById(text).populate('chefId dishIds');
+      } else {
+        restaurant = await Restaurant.find({ name: new RegExp('^' + text + '$', 'i') }).populate('chefId dishIds');
+      }
+  
+      if (!restaurant) {
+        res.status(404).json({ message: 'Restaurant not found' });
+        return;
       }
   
       res.status(200).json(restaurant);
     } catch (err) {
-      res.status(500).json({ message: 'Error fetching Restaurant', error: err });
+      console.error('Error fetching restaurant:', err);
+      res.status(500).json({ message: 'Error fetching restaurant', error: err });
     }
   };
+
+  export const getRestaurantById = async (req: Request, res: Response) => {
+    try {
+      const restaurant = await Restaurant.findById(req.params.id).populate('chefId','dishIds');
+      if (!restaurant) {
+          res.status(404).json({ message: 'Restaurant not found' });
+          return
+      }
+      res.status(200).json(restaurant);
+    } catch (err) {
+      res.status(500).json({ message: 'Error fetching restaurant', error: err });
+    }
+  };
+  
+  export const getRestaurantByName = async (req: Request, res: Response) => {
+      try {
+        const restaurant = await Restaurant.find({ name: new RegExp('^' + req.params.name + '$', 'i') }).populate('chefId','dishIds');
+            if (!restaurant || restaurant.length === 0) {
+           res.status(404).json({ message: 'Restaurant not found' });
+           return
+        }
+    
+        res.status(200).json(restaurant);
+      } catch (err) {
+        res.status(500).json({ message: 'Error fetching Restaurant', error: err });
+      }
+    };
 
 export const createRestaurant = async (req: Request, res: Response) => {
   try {

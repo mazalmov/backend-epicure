@@ -5,31 +5,22 @@ import Restaurant from '../../restaurant/restaurant.schema';
 
 export const searchByQuery = async (req: Request, res: Response) => {
   try {
-    const { name, ingredient } = req.query;
-
-    if (!name && !ingredient) {
-      res.status(400).json({ message: 'Please provide a name or ingredient for search' });
+    const { text } = req.query;
+    if (!text || typeof text !== 'string') {
+      res.status(400).json({ message: 'Please provide a valid text parameter for search' });
       return;
     }
-
-    const nameRegex = name ? { $regex: name as string, $options: 'i' } : undefined;
-    const ingredientRegex = ingredient ? { ingredients: { $elemMatch: { $regex: ingredient as string, $options: 'i' } } } : undefined;
-
-    console.log('nameRegex:', nameRegex);
-    console.log('ingredientRegex:', ingredientRegex);
+    const regex = { $regex: text, $options: 'i' };
 
     const dishes = await Dish.find({
-      ...(nameRegex && { name: nameRegex }),
-      ...(ingredientRegex && ingredientRegex),
+      $or: [
+        { name: regex }, 
+        { ingredients: { $elemMatch: regex } }, 
+      ],
     }).populate('chefId restaurantId');
 
-    const chefs = name
-      ? await Chef.find({ name: nameRegex }).populate('restaurantIds')
-      : [];
-
-    const restaurants = name
-      ? await Restaurant.find({ name: nameRegex }).populate('chefId dishIds')
-      : [];
+    const chefs = await Chef.find({ name: regex }); 
+    const restaurants = await Restaurant.find({ name: regex }); 
 
     res.status(200).json({
       dishes,
@@ -40,7 +31,6 @@ export const searchByQuery = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error in searchByQuery:', error);
     res.status(500).json({ message: 'An error occurred during search', error });
-    return;
   }
 };
 export const searchByPost = async (req: Request, res: Response) => {
@@ -53,7 +43,7 @@ export const searchByPost = async (req: Request, res: Response) => {
     if (priceRange) dishQuery.price = { $gte: priceRange.min, $lte: priceRange.max };
     if (restaurantId) dishQuery.restaurantId = restaurantId;
 
-    const dishes = await Dish.find(dishQuery).populate('chefId restaurantId');
+    const dishes = await Dish.find(dishQuery);
 
     res.status(200).json({
       dishes,

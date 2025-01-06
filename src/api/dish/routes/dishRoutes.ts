@@ -1,6 +1,7 @@
 import express from 'express';
 import {
-  getAllDishes,
+  getDishes,
+  getDish,
   getDishById,
   getDishByName,
   createDish,
@@ -10,7 +11,8 @@ import {
 
 const dishRoutes = express.Router();
 
-dishRoutes.get('/', getAllDishes);
+dishRoutes.get('/', getDishes);
+dishRoutes.get('text/:text', getDish);
 dishRoutes.get('/id/:id', getDishById);
 dishRoutes.get('/name/:name', getDishByName);
 dishRoutes.post('/', createDish);

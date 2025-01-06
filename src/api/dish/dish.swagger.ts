@@ -18,6 +18,76 @@
 
 /**
  * @swagger
+ * /dishes/{text}:
+ *   get:
+ *     summary: Retrieve a dish by ID or name
+ *     tags: [Dishes]
+ *     parameters:
+ *       - in: path
+ *         name: text
+ *         required: true
+ *         description: The ID or name of the dish
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A dish object or a list of dishes (if searched by name)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 price:
+ *                   type: number
+ *                   format: float
+ *                 restaurantId:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                 image:
+ *                   type: string
+ *       400:
+ *         description: Invalid text parameter
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Dish not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Error fetching dish
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
+ */
+
+/**
+ * @swagger
  * /dishes/id/{id}:
  *   get:
  *     summary: Get a dish by ID
