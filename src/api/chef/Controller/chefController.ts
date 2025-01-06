@@ -35,15 +35,17 @@ export const getChef = async (req: Request, res: Response) => {
 
     if (isId) {
       chef = await Chef.findById(text).populate('restaurantIds');
+      if (!chef) {
+        res.status(404).json({ message: 'Chef not found' });
+        return;
+      }
     } else {
       chef = await Chef.find({ name: new RegExp('^' + text + '$', 'i') }).populate('restaurantIds');
+      if (!chef || chef.length === 0) {
+        res.status(404).json({ message: 'Chef not found' });
+        return;
+      }
     }
-
-    if (!chef) {
-      res.status(404).json({ message: 'Chef not found' });
-      return;
-    }
-
     res.status(200).json(chef);
   } catch (err) {
     console.error('Error fetching chef:', err);

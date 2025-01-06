@@ -18,7 +18,7 @@
 
 /**
  * @swagger
- * /chefs/{text}:
+ * /chefs/text/{text}:
  *   get:
  *     summary: Retrieve a chef by ID or name
  *     tags: [Chefs]

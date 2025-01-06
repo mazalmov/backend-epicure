@@ -33,15 +33,17 @@ export const getDish = async (req: Request, res: Response) => {
   
       if (isId) {
         dish = await Dish.findById(text).populate('restaurantId');
+        if (!dish) {
+          res.status(404).json({ message: 'Dish not found' });
+            return;
+        }
       } else {
         dish = await Dish.find({ name: new RegExp('^' + text + '$', 'i') }).populate('restaurantId');
+        if (!dish || dish.length === 0) {
+            res.status(404).json({ message: 'Dish not found' });
+                return;
+        }
       }
-  
-      if (!dish) {
-        res.status(404).json({ message: 'Dish not found' });
-        return;
-      }
-  
       res.status(200).json(dish);
     } catch (err) {
       console.error('Error fetching dish:', err);

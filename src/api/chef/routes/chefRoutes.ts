@@ -12,7 +12,7 @@ import {
 const chefRoutes = express.Router();
 
 chefRoutes.get('/', getChefs);
-chefRoutes.get('text/:text', getChef);
+chefRoutes.get('/text/:text', getChef);
 chefRoutes.get('/id/:id', getChefById);
 chefRoutes.get('/name/:name', getChefByName);
 chefRoutes.post('/', createChef);

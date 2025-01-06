@@ -18,7 +18,7 @@
 
 /**
  * @swagger
- * /restaurants/{text}:
+ * /restaurants/text/{text}:
  *   get:
  *     summary: Retrieve a restaurant by ID or name
  *     tags: [Restaurants]

@@ -18,7 +18,7 @@
 
 /**
  * @swagger
- * /dishes/{text}:
+ * /dishes/text/{text}:
  *   get:
  *     summary: Retrieve a dish by ID or name
  *     tags: [Dishes]

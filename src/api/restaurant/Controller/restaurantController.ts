@@ -34,15 +34,17 @@ export const getRestaurant = async (req: Request, res: Response) => {
   
       if (isId) {
         restaurant = await Restaurant.findById(text).populate('chefId dishIds');
+        if (!restaurant) {
+          res.status(404).json({ message: 'Restaurant not found' });
+          return;
+        }
       } else {
         restaurant = await Restaurant.find({ name: new RegExp('^' + text + '$', 'i') }).populate('chefId dishIds');
+        if (!restaurant || restaurant.length === 0) {
+          res.status(404).json({ message: 'Restaurant not found' });
+          return;
+        }
       }
-  
-      if (!restaurant) {
-        res.status(404).json({ message: 'Restaurant not found' });
-        return;
-      }
-  
       res.status(200).json(restaurant);
     } catch (err) {
       console.error('Error fetching restaurant:', err);

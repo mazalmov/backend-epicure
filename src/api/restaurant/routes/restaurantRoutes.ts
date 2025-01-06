@@ -12,7 +12,7 @@ import {
 const restaurantRoutes = express.Router();
 
 restaurantRoutes.get('/', getRestaurants);
-restaurantRoutes.get('text/:text', getRestaurant);
+restaurantRoutes.get('/text/:text', getRestaurant);
 restaurantRoutes.get('/id/:id', getRestaurantById);
 restaurantRoutes.get('/name/:name', getRestaurantByName);
 restaurantRoutes.post('/', createRestaurant);
