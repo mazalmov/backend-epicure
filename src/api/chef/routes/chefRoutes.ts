@@ -7,7 +7,7 @@ import {
   createChef,
   updateChef,
   deleteChef,
-} from '../controller/chefController';
+} from '../Controller/chefController';
 
 const chefRoutes = express.Router();
 
