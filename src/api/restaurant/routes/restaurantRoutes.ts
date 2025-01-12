@@ -7,7 +7,7 @@ import {
   createRestaurant,
   updateRestaurant,
   deleteRestaurant,
-} from '../controller/restaurantController';
+} from '../Controller/restaurantController';
 
 const restaurantRoutes = express.Router();
 

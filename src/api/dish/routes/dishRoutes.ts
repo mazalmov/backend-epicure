@@ -7,7 +7,7 @@ import {
   createDish,
   updateDish,
   deleteDish,
-} from '../controller/dishController';
+} from '../Controller/dishController';
 
 const dishRoutes = express.Router();
 

@@ -51,7 +51,7 @@ export const getRestaurant = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Error fetching restaurant', error: err });
     }
   };
-
+  
   export const getRestaurantById = async (req: Request, res: Response) => {
     try {
       const restaurant = await Restaurant.findById(req.params.id).populate('chefId','dishIds');
