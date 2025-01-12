@@ -14,6 +14,9 @@ createSampleData();
 const app = express();
 setupSwagger(app);
 
+const cors = require('cors');
+app.use(cors());
+
 app.use(express.json()); 
 app.use('/chefs', chefRoutes);
 app.use('/restaurants', restaurantRoutes);

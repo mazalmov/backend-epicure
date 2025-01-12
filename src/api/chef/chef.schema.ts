@@ -5,6 +5,7 @@ export interface IChef {
     name: string;
     restaurantIds: mongoose.Types.ObjectId[]; 
     image: string;
+    info: string;
 }
 
 const chefSchema: Schema = new Schema({
@@ -18,6 +19,10 @@ const chefSchema: Schema = new Schema({
         required: true
     }],
     image: {
+        type: String,
+        required: true
+    },
+    info: {
         type: String,
         required: true
     },

@@ -8,6 +8,7 @@ export const createSampleData = async () => {
       name: 'Yossi shitrite',
       restaurantIds: [],
       image: 'chef1_image_url',
+      info: "Chef Yossi Shitrit has been living and breathing his culinary dreams for more than two decades, including running the kitchen in his first restaurant, the fondly-remembered Violet, located in Moshav  Udim. Shitrit's creativity and culinary  acumen born of long experience  are expressed in the every detail of each and every dish.",
     });
     await chef1.save();
 
@@ -16,11 +17,12 @@ export const createSampleData = async () => {
         iconMeaning: 'vegan',
         image: 'dish1_image_url',
         price: 100,
-        ingredients: ['Tomato', 'Cheese'], 
+        ingredients: ["Polenta fingers", "veal cheek", "magic chili cured lemon cream", "yellow laksa"], 
         chefId: chef1._id,  
         restaurantId: "6773eec8dacbccf956211609",  
       });
       await dish1.save();
+
       const dish2 = new Dish({
         name: 'kitchen market',
         iconMeaning: 'spicy',
@@ -31,62 +33,52 @@ export const createSampleData = async () => {
         restaurantId: "6773ef344b0b93497bd9f972",  
       });
       await dish2.save();
+
+      const dish3 = new Dish({
+        name: 'Mashya',
+        iconMeaning: 'vegan',
+        image: 'dish3_image_url',
+        price: 130,
+        ingredients: ["Basil dough", "cashew 'butter'", "demi-glace", "bison & radish"], 
+        chefId: chef1._id,  
+        restaurantId: "6773ef344b0b93497bd9f972",  
+      });
+      await dish3.save();
+    
     
 
     const restaurant1 = new Restaurant({
-      name: 'Sample Restaurant',
+      name: 'claro',
       chefId: chef1._id,
       dishesId: [dish1._id,dish2._id],
+      chefName: "Ran Shmueli",
       image: 'restaurant_image_url',
+      rank:"3",
     });
     await restaurant1.save();
-    const chef2 = new Chef({
-        name: 'Chef11',
-        restaurantIds: [],
-        image: 'chef11_image_url',
-      });
-      await chef2.save();
-  
-      const dish3 = new Dish({
-          name: 'Dish3',
-          iconMeaning: 'vegan',
-          image: 'dish3_image_url',
-          price: 100,
-          ingredients: ['Tomato', 'Cheese'], 
-          chefId: chef2._id,  
-          restaurantId: "6773eec8dacbccf956211609",  
-        });
-        await dish3.save();
-        const dish4 = new Dish({
-          name: 'Dish4',
-          iconMeaning: 'spicy',
-          image: 'dish4_image_url',
-          price: 94,
-          ingredients: ['Meat', 'Bread', 'Hummus'], 
-          chefId: chef2._id,  
-          restaurantId: "6773ef344b0b93497bd9f972",  
-        });
-        await dish4.save();
-      
-  
-      const restaurant3 = new Restaurant({
-        name: 'Restaurant3',
-        chefId: chef2._id,
-        dishesId: [dish3._id,dish4._id],
+
+      const restaurant2 = new Restaurant({
+        name: 'Lumina',
+        chefId: chef1._id,
+        dishesId: [dish3._id,dish2._id],
+        chefName: "Yossi shitrite",
         image: 'restaurant11_image_url',
+        rank:"4",
+      });
+      await restaurant2.save();
+
+      const restaurant3 = new Restaurant({
+        name: 'tiger-lily',
+        chefId: chef1._id,
+        dishesId: [dish3._id,dish1._id],
+        chefName: "Yarin Green",
+        image: 'restaurant_image_url',
+        rank: "5",
       });
       await restaurant3.save();
-
-      const restaurant4 = new Restaurant({
-        name: 'Restaurant4',
-        chefId: chef2._id,
-        dishesId: [dish3._id,dish4._id],
-        image: 'restaurant_image_url',
-      });
-      await restaurant4.save();
 
     console.log('Sample data created successfully');
   } catch (err) {
     console.error('Error creating sample data:', err);
   }
-};
+};  

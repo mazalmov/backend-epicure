@@ -6,7 +6,7 @@ export const getRestaurants = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1; 
     const limit = parseInt(req.query.limit as string) || 20;
     const offset = (page - 1) * limit;
-    const restaurants = await Restaurant.find().skip(offset).limit(limit); 
+    const restaurants = await Restaurant.find().populate('chefId', 'name').skip(offset).limit(limit); 
     const totalRestaurants = await Restaurant.countDocuments();
     res.status(200).json({
       page,
