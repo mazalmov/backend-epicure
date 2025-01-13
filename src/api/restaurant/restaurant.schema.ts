@@ -3,7 +3,7 @@ import { Schema, Document } from 'mongoose';
 
 export interface IRestaurant {
   name: string;
-  chefId: mongoose.Schema.Types.ObjectId; 
+  chefId: { name: string };
   dishIds: mongoose.Schema.Types.ObjectId[]; 
   chefName: string;
   image: string;
@@ -16,7 +16,7 @@ const restaurantSchema: Schema = new Schema({
     required: true,
   },
   chefId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Chef',
     required: true,
   },
